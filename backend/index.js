@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 // Routes
-const userRouters = require("./src/routers/user");
+const authRouters = require("./src/routers/auth");
 
 // env config
 env.config();
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // router call here we are using here middleware url present default
-app.use("/api", userRouters);
+app.use("/api", authRouters);
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
