@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -16,10 +15,22 @@ export const Header = (props) => {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Nav className="me-auto">
-            <Link to="/">Dashboard</Link>
-            <Link to="/signin">Sign In</Link>
-            <Link to="/signup">Sign Up</Link>
+          <Nav className="nav justify-content-end">
+            <Link to="/" className="nav-link">
+              Dashboard
+            </Link>
+            <Link to="/signin" className="nav-link">
+              Sign In
+            </Link>
+            <Link to="/signup" className="nav-link">
+              Sign Up
+            </Link>
+            <Link to="/signup" className="nav-link">
+              Logout
+            </Link>
+            <Link to="/signup" className="nav-link">
+              Profile
+            </Link>
           </Nav>
         </Container>
       </Navbar>
