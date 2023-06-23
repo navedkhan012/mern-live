@@ -3,6 +3,7 @@ const env = require("dotenv");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", true);
 
 // Routes
 const authRouters = require("./src/routers/auth");
@@ -10,11 +11,21 @@ const authRouters = require("./src/routers/auth");
 // env config
 env.config();
 
+// mongoose.set("strictQuery", false);
 mongoose
-  .connect("mongodb+srv://admin:admin@cluster0.wjzkq.mongodb.net/mern")
+  .connect("mongodb+srv://admin:admin@cluster0.wjzkq.mongodb.net/mern", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("data base mongoose connected");
   });
+
+// mongoose
+//   .connect("mongodb+srv://admin:admin@cluster0.wjzkq.mongodb.net/mern")
+//   .then(() => {
+//     console.log("data base mongoose connected");
+//   });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
