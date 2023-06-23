@@ -30,9 +30,13 @@ exports.signin = (req, res, next) => {
     if (error) throw error;
     if (user) {
       if (user.authenticate(req.body.password)) {
-        let token = jwt.sign({ _id: user._id }, process.env.JWT_TOKEN, {
-          expiresIn: "10d", // 10 day
-        });
+        let token = jwt.sign(
+          { _id: user._id, role: user.role },
+          process.env.JWT_TOKEN,
+          {
+            expiresIn: "10d", // 10 day
+          }
+        );
         const { firstName, lastName, email, role, fullName } = user;
 
         return res.status(200).json({
@@ -68,14 +72,4 @@ exports.signin = (req, res, next) => {
       res.send({ status: true, message: "Success!", user: data });
     });
   });
-};
-
-exports.requireSignIn = (req, res, next) => {
-  const token = req.headers.authorization;
-  console.log("token", token);
-  const user = jwt.verify(token, process.env.JWT_TOKEN);
-  req.user = user;
-  next();
-  // jwt.decode()
-  // jwt.decode(req.body.JWT_TOKEN)
 };
