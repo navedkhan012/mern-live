@@ -8,6 +8,7 @@ mongoose.set("strictQuery", true);
 const authRouters = require("./src/routers/auth");
 const categoryRouters = require("./src/routers/category");
 const productRouters = require("./src/routers/product");
+const cartRouters = require("./src/routers/cart");
 
 // env config
 env.config();
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use("/api", authRouters);
 app.use("/api", categoryRouters);
 app.use("/api", productRouters);
+app.use("/api", cartRouters);
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
