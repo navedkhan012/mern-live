@@ -1,38 +1,38 @@
+// eslint-disable-file no-use-before-define
+
 const Cart = require("../models/cart");
 exports.addItemToCart = (req, res) => {
   Cart.findOne({ user: req.user._id }).exec((error, cart) => {
     if (error) return res.status(400).json({ message: error });
     if (cart) {
       const product = req.body.cartItems.product;
-      const isItemAdded = cart.cartItems.find(
-        (c) => c.product == req.body.cartItems.product
-      );
-
-      if (isItemAdded) {
-        // if cart already then update bu quantity
-        Cart.findOneAndUpdate(
-          { user: req.user._id, "cartItems.product": product },
-          {
-            $set: {
-              "cartItems.$": {
-                ...req.body.cartItems,
-                quantity: isItemAdded.quantity + 1,
-              },
+      const item = cart.cartItems.find((c) => c.product == product);
+      let condition, action;
+      if (item) {
+        condition = { user: req.user._id, "cartItems.product": product };
+        action = {
+          /* eslint-disable no-use-before-define */
+          // prettier-ignore
+          "$set": {
+            "cartItems.$": {
+              ...req.body.cartItems,
+              quantity: item.quantity + req.body.cartItems.quantity,
             },
-          }
-        ).exec((error, _cart) => {
+          },
+        };
+        // if cart already then update bu quantity
+        Cart.findOneAndUpdate(condition, action).exec((error, _cart) => {
           if (error) return res.status(400).json({ message: error });
           if (_cart) return res.status(201).json({ cart: _cart });
         });
       } else {
+        condition = { user: req.user._id };
+        action = {
+          // prettier-ignore
+          "$push": { "cartItems": req.body.cartItems },
+        };
         // if cart already then update bu quantity
-        Cart.findOneAndUpdate(
-          { user: req.user._id },
-
-          {
-            $push: { cartItems: req.body.cartItems },
-          }
-        ).exec((error, _cart) => {
+        Cart.findOneAndUpdate(condition, action).exec((error, _cart) => {
           if (error) return res.status(400).json({ message: error });
           if (_cart) return res.status(201).json({ cart: _cart });
         });
@@ -43,7 +43,7 @@ exports.addItemToCart = (req, res) => {
       // if cart not then add cart
       const cart = new Cart({
         user: req.user._id,
-        cartItems: req.body.cartItems,
+        cartItems: [req.body.cartItems],
       });
 
       cart.save((error, cart) => {

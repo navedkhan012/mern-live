@@ -2,11 +2,17 @@ const category = require("../models/category");
 const slugify = require("slugify");
 
 exports.createCategory = (req, res, next) => {
+  let categoryUrl;
+
   const categoryObj = {
     name: req.body.name,
     slug: slugify(req.body.name),
   };
-
+  console.log("req.files", req.file);
+  if (req.file) {
+    categoryUrl = process.env.URL_CAT_IMG + "/public/" + req.file.filename;
+    categoryObj.categoryImage = categoryUrl;
+  }
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
   }

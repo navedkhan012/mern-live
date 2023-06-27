@@ -3,6 +3,7 @@ const env = require("dotenv");
 const app = express();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
+const path = require("path");
 
 // Routes
 const authRouters = require("./src/routers/auth");
@@ -24,7 +25,8 @@ mongoose
   });
 
 app.use(express.json());
-
+// this below line for folder readable for browser
+app.use(express.static(path.join(__dirname, "src/uploads")));
 app.use("/api", authRouters);
 app.use("/api", categoryRouters);
 app.use("/api", productRouters);
