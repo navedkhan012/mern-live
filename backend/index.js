@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
 const path = require("path");
+const cors = require("cors");
 
 // Routes
 const authRouters = require("./src/routers/auth");
@@ -23,6 +24,8 @@ mongoose
   .then(() => {
     console.log("data base mongoose connected");
   });
+
+app.use(cors());
 
 app.use(express.json());
 // This below line for folder readable for browser

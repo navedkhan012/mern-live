@@ -16,6 +16,13 @@ export default (
         ...action.payload,
       };
       break;
+    case authConstants.LOGIN_SUCCESS:
+      state = {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
+      break;
   }
 
   return state;

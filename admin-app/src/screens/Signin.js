@@ -1,4 +1,5 @@
-import React from "react";
+// start 11
+import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { loginAction } from "../actions";
 import { useDispatch } from "react-redux";
@@ -8,16 +9,20 @@ import { useDispatch } from "react-redux";
  **/
 
 export const Signin = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
   const userLogin = (e) => {
     alert("login work");
     e.preventDefault();
     const user = {
-      email: "navedkhan012@gmail.com",
-      password: "123456",
+      email: email,
+      password: password,
     };
     dispatch(loginAction(user));
   };
+
   return (
     <Container>
       <Row className="pt-4">
@@ -31,7 +36,8 @@ export const Signin = (props) => {
               <Form.Control
                 type="email"
                 placeholder="Last name"
-                value={"email"}
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
             </Form.Group>
 
@@ -40,7 +46,8 @@ export const Signin = (props) => {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                value={"password"}
+                value={password}
+                onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </Form.Group>
             <Button variant="primary" type="submit" onClick={userLogin}>
