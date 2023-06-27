@@ -1,12 +1,23 @@
 import React from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-
+import { loginAction } from "../actions";
+import { useDispatch } from "react-redux";
 /**
  * @author
  * @function Signin
  **/
 
 export const Signin = (props) => {
+  const dispatch = useDispatch();
+  const userLogin = (e) => {
+    alert("login work");
+    e.preventDefault();
+    const user = {
+      email: "navedkhan012@gmail.com",
+      password: "123456",
+    };
+    dispatch(loginAction(user));
+  };
   return (
     <Container>
       <Row className="pt-4">
@@ -32,11 +43,7 @@ export const Signin = (props) => {
                 value={"password"}
               />
             </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={() => alert("yes working")}
-            >
+            <Button variant="primary" type="submit" onClick={userLogin}>
               Submit
             </Button>
           </Form>
