@@ -25,7 +25,7 @@ mongoose
   });
 
 app.use(express.json());
-// this below line for folder readable for browser
+// This below line for folder readable for browser
 app.use(express.static(path.join(__dirname, "src/uploads")));
 app.use("/api", authRouters);
 app.use("/api", categoryRouters);
