@@ -1,8 +1,9 @@
-// start 11
-import React, { useState } from "react";
+// half 11
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { loginAction } from "../actions";
-import { useDispatch } from "react-redux";
+import { isUserLoggedIn, loginAction } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 /**
  * @author
  * @function Signin
@@ -12,7 +13,16 @@ export const Signin = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const auth = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!auth.token) {
+      dispatch(isUserLoggedIn());
+    }
+  }, [auth.token, dispatch]);
+
   const userLogin = (e) => {
     alert("login work");
     e.preventDefault();
@@ -22,6 +32,10 @@ export const Signin = (props) => {
     };
     dispatch(loginAction(user));
   };
+
+  if (auth.token) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container>

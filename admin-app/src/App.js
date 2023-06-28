@@ -8,13 +8,14 @@ import { Home } from "./screens/Home";
 import { Signin } from "./screens/Signin";
 import { Signup } from "./screens/Signup";
 import { Header } from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Header />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
         </Switch>

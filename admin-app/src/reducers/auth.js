@@ -4,11 +4,17 @@ import { authConstants } from "../actions/constants";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (
   state = {
-    email: "",
-    password: "",
+    token: null,
+    user: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      profilePicture: "",
+    },
   },
   action
 ) => {
+  // console.log(action);
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:
       state = {
