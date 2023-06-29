@@ -1,19 +1,17 @@
 /* eslint-disable default-case */
 import { authConstants } from "../actions/constants";
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default (
-  state = {
-    token: null,
-    user: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      profilePicture: "",
-    },
+const initinalState = {
+  token: null,
+  user: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    profilePicture: "",
   },
-  action
-) => {
+};
+// eslint-disable-next-line import/no-anonymous-default-export
+export default (state = initinalState, action) => {
   // console.log(action);
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:
@@ -27,6 +25,11 @@ export default (
         ...state,
         user: action.payload.user,
         token: action.payload.token,
+      };
+      break;
+    case authConstants.LOGOUT_REQUEST:
+      state = {
+        ...initinalState,
       };
       break;
   }

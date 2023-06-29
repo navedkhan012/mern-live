@@ -56,3 +56,10 @@ export const isUserLoggedIn = () => {
     }
   };
 };
+
+export const signout = () => {
+  return (dispatch) => {
+    localStorage.clear();
+    dispatch({ type: authConstants.LOGOUT_REQUEST });
+  };
+};
