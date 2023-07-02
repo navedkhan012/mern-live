@@ -11,6 +11,8 @@ import { Header } from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn } from "./actions";
+import Product from "./screens/Product";
+import Order from "./screens/Order";
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -26,6 +28,8 @@ function App() {
         <Header />
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute exact path="/products" component={Product} />
+          <PrivateRoute exact path="/orders" component={Order} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
         </Switch>

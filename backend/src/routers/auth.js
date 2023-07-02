@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { requireSignIn } = require("../middleware");
 
-const { signup, signin } = require("../controllers/auth");
+const { signup, signin, signout } = require("../controllers/auth");
 const {
   validatorSignupRequest,
   isRequestValidated,
@@ -12,6 +12,8 @@ const {
 router.post("/signin", validatorSigninRequest, isRequestValidated, signin);
 
 router.post("/signup", validatorSignupRequest, isRequestValidated, signup);
+
+router.post("/signout", requireSignIn, signout);
 
 router.post("/profile", requireSignIn, (req, res) => {
   res.status(200).json({
