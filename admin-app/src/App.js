@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn } from "./actions";
 import Product from "./screens/Product";
 import Order from "./screens/Order";
+import Category from "./screens/Category";
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -28,10 +29,11 @@ function App() {
         <Header />
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute exact path="/products" component={Product} />
-          <PrivateRoute exact path="/orders" component={Order} />
-          <Route exact path="/signin" component={Signin} />
-          <Route exact path="/signup" component={Signup} />
+          <PrivateRoute path="/products" component={Product} />
+          <PrivateRoute path="/categories" component={Category} />
+          <PrivateRoute path="/orders" component={Order} />
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </BrowserRouter>
     </div>

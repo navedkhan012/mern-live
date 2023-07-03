@@ -12,7 +12,7 @@ const initinalState = {
 };
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initinalState, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:
       state = {
