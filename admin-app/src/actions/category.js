@@ -31,11 +31,14 @@ export const addCategory = (form) => {
       type: categoryConstants.ADD_CATEGORY_REQUEST,
     });
     const res = await axiosIntance.post("category/create", form);
-    console.log("res", res.data);
+
+    console.log("res---------> action", res);
     if (res.status === 201) {
       dispatch({
         type: categoryConstants.ADD_CATEGORY_SUCCESS,
-        payload: res.data.category,
+        payload: {
+          category: res.data.category,
+        },
       });
     } else {
       dispatch({

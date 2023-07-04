@@ -8,7 +8,6 @@ exports.createCategory = (req, res, next) => {
     name: req.body.name,
     slug: slugify(req.body.name),
   };
-  console.log("req.files", req.file);
   if (req.file) {
     categoryUrl = process.env.URL_CAT_IMG + "/public/" + req.file.filename;
     categoryObj.categoryImage = categoryUrl;
@@ -45,6 +44,7 @@ function createCategories(categories, parentId = null) {
       _id: cate._id,
       name: cate.name,
       slug: cate.slug,
+      parentId: cate.parentId,
       children: createCategories(categories, cate._id),
     });
   }

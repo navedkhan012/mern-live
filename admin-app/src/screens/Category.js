@@ -69,7 +69,9 @@ const Category = (props) => {
     // };
     // console.log("cat------>", cat);
     dispatch(addCategory(form));
+    setShow(false);
   };
+
   return (
     <div>
       <Layout sidebar>
@@ -78,7 +80,11 @@ const Category = (props) => {
         </Button>
         <h2>Category</h2>
         <div class="table-responsive small">
-          <ul>{renderCategoryList(categories.categories)}</ul>
+          <ul>
+            {categories.categories.length > 0
+              ? renderCategoryList(categories.categories)
+              : "reload"}
+          </ul>
         </div>
       </Layout>
 
@@ -110,9 +116,11 @@ const Category = (props) => {
             onChange={(e) => setParentId(e.currentTarget.value)}
           >
             <option>Select parent category </option>
-            {optionCategoryList(categories.categories).map((option) => {
-              return <option value={option.value}>{option.name} </option>;
-            })}
+            {categories.categories.length > 0
+              ? optionCategoryList(categories.categories).map((option) => {
+                  return <option value={option.value}>{option.name} </option>;
+                })
+              : "reload"}
           </Form.Select>
         </Form>
       </ModalPopUp>
