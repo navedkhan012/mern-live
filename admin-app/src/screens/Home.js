@@ -10,13 +10,13 @@ export const Home = (props) => {
   return (
     <Layout sidebar>
       <div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 className="h2">Dashboard</h1>
         </div>
 
         <h2>Section title</h2>
-        <div class="table-responsive small">
-          <table class="table table-striped table-sm">
+        <div className="table-responsive small">
+          <table className="table table-striped table-sm">
             <thead>
               <tr>
                 <th scope="col">#</th>

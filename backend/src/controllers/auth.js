@@ -1,6 +1,5 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const path = require("path");
 
 exports.signup = (req, res, next) => {
   User.findOne({ email: req.body.email }).exec((error, user) => {
@@ -80,5 +79,4 @@ exports.signout = (req, res, next) => {
   res.status(200).json({
     message: "signout succefully...!",
   });
-  // res.cookie("token", token, { expiresIn: "10d" });
 };

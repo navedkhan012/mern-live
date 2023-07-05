@@ -14,6 +14,8 @@ import { isUserLoggedIn } from "./actions";
 import Product from "./screens/Product";
 import Order from "./screens/Order";
 import Category from "./screens/Category";
+import { getAllCategories } from "./actions/category";
+import { getInitialData } from "./actions/initialdata";
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -21,6 +23,8 @@ function App() {
     if (!auth.token) {
       dispatch(isUserLoggedIn());
     }
+    dispatch(getAllCategories());
+    dispatch(getInitialData());
   }, [auth.token, dispatch]);
 
   return (

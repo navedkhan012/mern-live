@@ -18,8 +18,10 @@ const Product = (props) => {
   const [productPictures, setProductPictures] = useState("");
   const [categoryId, setCategoryid] = useState("");
   const categories = useSelector((state) => state.categories);
+  const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
+  console.log("products", products);
   const handleChangeImage = (e) => {
     setProductPictures([...productPictures, e.target.files[0]]);
   };
@@ -36,8 +38,6 @@ const Product = (props) => {
     }
     return options;
   };
-
-  console.log("productPictures", productPictures);
 
   const handleCategorySave = () => {
     const form = new FormData();
@@ -62,6 +62,35 @@ const Product = (props) => {
       <Button variant="primary" onClick={() => setShow(true)}>
         Add Category
       </Button>
+
+      <div className="table-responsive small">
+        <table className="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#id</th>
+              <th scope="col">name</th>
+              <th scope="col">price</th>
+              <th scope="col">qut</th>
+              <th scope="col">desciption</th>
+              <th scope="col">category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.products.map((product, index) => {
+              return (
+                <tr>
+                  <td>{product._id}</td>
+                  <td>{product.name}</td>
+                  <td>{product.price}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.desciption}</td>
+                  <td>{product.category}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <ModalPopUp
         heading="Add Product"
@@ -115,9 +144,15 @@ const Product = (props) => {
           >
             <option>Select parent category </option>
             {categories.categories.length > 0
-              ? optionCategoryList(categories.categories).map((option) => {
-                  return <option value={option.value}>{option.name} </option>;
-                })
+              ? optionCategoryList(categories.categories).map(
+                  (option, index) => {
+                    return (
+                      <option key={index} value={option.value}>
+                        {option.name}{" "}
+                      </option>
+                    );
+                  }
+                )
               : "reload"}
           </Form.Select>
           <Form.Group controlId="formFile" className="mb-3">
@@ -125,7 +160,9 @@ const Product = (props) => {
             <Form.Control type="file" onChange={handleChangeImage} />
             <div className="pt-2">
               {productPictures.length > 0
-                ? productPictures.map((image) => <div>{image.name}</div>)
+                ? productPictures.map((image, index) => (
+                    <div key={index}>{image.name}</div>
+                  ))
                 : "No Image selected"}
             </div>
           </Form.Group>

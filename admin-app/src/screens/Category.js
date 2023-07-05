@@ -1,8 +1,8 @@
-// 31 mint 14 video
-import React, { useEffect, useState } from "react";
+// 23 mint 16 video
+import React, { useState } from "react";
 import { Layout } from "./Layout";
 import { useSelector, useDispatch } from "react-redux";
-import { addCategory, getAllCategories } from "../actions/category";
+import { addCategory } from "../actions/category";
 import ModalPopUp from "../components/ModalPopUp";
 import { Button, Form } from "react-bootstrap";
 
@@ -18,10 +18,6 @@ const Category = (props) => {
   const [categoryImage, setCategoryImage] = useState({});
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
-
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
 
   const renderCategoryList = (categories) => {
     const categoriesArr = [];
@@ -79,7 +75,7 @@ const Category = (props) => {
           Add Category
         </Button>
         <h2>Category</h2>
-        <div class="table-responsive small">
+        <div className="table-responsive small">
           <ul>
             {categories.categories.length > 0
               ? renderCategoryList(categories.categories)
