@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "./Layout";
 import { Button, Form } from "react-bootstrap";
 import ModalPopUp from "../components/ModalPopUp";
@@ -11,6 +11,8 @@ import { addProduct } from "../actions/product";
 
 const Product = (props) => {
   const [show, setShow] = useState(false);
+  const [productDetailModal, setProductDetailModal] = useState(false);
+  const [productDetail, setProductDetail] = useState({});
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [desciption, setDesciption] = useState("");
@@ -18,10 +20,12 @@ const Product = (props) => {
   const [productPictures, setProductPictures] = useState("");
   const [categoryId, setCategoryid] = useState("");
   const categories = useSelector((state) => state.categories);
-  const products = useSelector((state) => state.products);
-  const dispatch = useDispatch();
 
-  console.log("products", products);
+  const products = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
+  console.log(products);
+
   const handleChangeImage = (e) => {
     setProductPictures([...productPictures, e.target.files[0]]);
   };
@@ -55,43 +59,9 @@ const Product = (props) => {
     dispatch(addProduct(form));
     setShow(false);
   };
-  return (
-    <Layout sidebar>
-      <div>Product</div>
 
-      <Button variant="primary" onClick={() => setShow(true)}>
-        Add Category
-      </Button>
-
-      <div className="table-responsive small">
-        <table className="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#id</th>
-              <th scope="col">name</th>
-              <th scope="col">price</th>
-              <th scope="col">qut</th>
-              <th scope="col">desciption</th>
-              <th scope="col">category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.products.map((product, index) => {
-              return (
-                <tr>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.desciption}</td>
-                  <td>{product.category}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
+  const addProductModal = () => {
+    return (
       <ModalPopUp
         heading="Add Product"
         handleShow={show}
@@ -168,6 +138,81 @@ const Product = (props) => {
           </Form.Group>
         </Form>
       </ModalPopUp>
+    );
+  };
+
+  const productDetailPop = () => {
+    console.log("productDetail", productDetail);
+    if (!productDetail) {
+      return null;
+    }
+    return (
+      <ModalPopUp
+        heading="productDetailModal"
+        handleShow={productDetailModal}
+        handleClose={() => setProductDetailModal(false)}
+        handleSave={handleCategorySave}
+      >
+        <div>
+          <div>{productDetail.name}</div>
+          <div>{productDetail.price}</div>
+          <div>{productDetail.quantity}</div>
+          <div>{productDetail.desciption}</div>
+          <td>{productDetail.category.name}</td>
+          {/* <div>
+            {productDetail &&
+              productDetail.productPictures.map((picture, index) => (
+                <div key={index}>{picture.img}</div>
+              ))}
+          </div> */}
+        </div>
+      </ModalPopUp>
+    );
+  };
+
+  const getProductDetail = (product) => {
+    setProductDetailModal(true);
+    setProductDetail(product);
+  };
+
+  return (
+    <Layout sidebar>
+      <div>Product</div>
+      <Button variant="primary" onClick={() => setShow(true)}>
+        Add Category
+      </Button>
+      <div className="table-responsive small">
+        <table className="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#id</th>
+              <th scope="col">name</th>
+              <th scope="col">price</th>
+              <th scope="col">qut</th>
+              <th scope="col">desciption</th>
+              <th scope="col">category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.length !== 0
+              ? products.products.map((product, index) => {
+                  return (
+                    <tr key={index} onClick={() => getProductDetail(product)}>
+                      <td>{product._id}</td>
+                      <td>{product.name}</td>
+                      <td>{product.price}</td>
+                      <td>{product.quantity}</td>
+                      <td>{product.desciption}</td>
+                      <td>{product.category.name}</td>
+                    </tr>
+                  );
+                })
+              : "no data"}
+          </tbody>
+        </table>
+      </div>
+      {addProductModal()}
+      {productDetailPop()}
     </Layout>
   );
 };

@@ -1,20 +1,23 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 exports.signup = (req, res, next) => {
-  User.findOne({ email: req.body.email }).exec((error, user) => {
+  User.findOne({ email: req.body.email }).exec(async (error, user) => {
     if (error) throw error;
     if (user) {
       return res.send({ status: false, message: "Email already in use" });
     }
 
     const { firstName, lastName, email, password } = req.body;
-
+    const hash_password = await bcrypt.hash(password, 10);
+    console.log("hash_password", hash_password);
     const newUser = new User({
       firstName,
       lastName,
       email,
-      password,
+      password: hash_password,
+      hash_password,
       username: email,
     });
 
