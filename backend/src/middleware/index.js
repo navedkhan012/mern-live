@@ -12,3 +12,12 @@ exports.requireSignIn = (req, res, next) => {
 
   next();
 };
+
+exports.isAdminrequire = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(400).json({
+      message: "Admin Access Denied",
+    });
+  }
+  next();
+};
