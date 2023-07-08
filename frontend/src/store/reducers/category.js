@@ -1,6 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { getCategoryConstent } from "../constents";
-export default (state = [], action) => {
+
+const initState = {
+  categoroyList: [],
+};
+
+export default (state = initState, action) => {
   switch (action.type) {
     case getCategoryConstent.GET_ALL_CATEGORY_REQUEST:
       state = {
@@ -10,18 +15,19 @@ export default (state = [], action) => {
     case getCategoryConstent.GET_ALL_CATEGORY_SUCCESS:
       state = {
         ...state,
-        categories: action.payload.categories,
+        categoroyList: action.payload.categoryList,
       };
       break;
 
     case getCategoryConstent.GET_ALL_CATEGORY_FAILURE:
       state = {
         ...state,
-        categories: action.payload.error,
+        error: action.payload.error,
       };
       break;
 
     default:
+      state = { state };
       break;
   }
   return state;
