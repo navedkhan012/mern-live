@@ -5,3 +5,28 @@
 .menu_children{
     display: none;
 }
+.menu_parent:hover .menu_children{
+    display: block;
+}
+
+.menu_parent a {
+    color: aliceblue;
+    display: inline-block;
+    text-decoration: none;
+}
+.menu_parent > a {
+    color: aliceblue;
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+    margin-left: 2px;
+}
+.menu_children{
+    position: absolute;
+    top: 50px;
+    background: red;
+    padding: 0px;
+    list-style: none;
+    min-width: 140px;
+    border-radius: 4px;
+}

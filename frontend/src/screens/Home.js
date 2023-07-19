@@ -1,5 +1,6 @@
 import React from "react";
-import Menu from "../components/Menu";
+import { Header } from "../components/Header";
+import Layout from "./Layout";
 
 /**
  * @author
@@ -7,10 +8,5 @@ import Menu from "../components/Menu";
  **/
 
 export const Home = (props) => {
-  return (
-    <div>
-      Home
-      <Menu></Menu>
-    </div>
-  );
+  return <Layout>Home</Layout>;
 };

@@ -6,7 +6,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getallcategory } from "../store/actions/category";
-import NavLink from "react-bootstrap/esm/NavLink";
+
+import { Link, NavLink } from "react-router-dom";
 
 function Menu() {
   const dispatch = useDispatch();
@@ -20,11 +21,13 @@ function Menu() {
     for (const cat of categories) {
       categoriesArr.push(
         <li className="menu_parent">
-          <NavLink to="/">{cat.name}</NavLink>
+          <NavLink to={cat.name}>{cat.name}</NavLink>
           {cat.children.length > 0 ? (
             <ul className="menu_children">
               <li>
-                <NavLink to="/">Home{renderCategoryList(cat.children)}</NavLink>
+                <NavLink to={renderCategoryList(cat.children)}>
+                  {renderCategoryList(cat.children)}
+                </NavLink>
               </li>
             </ul>
           ) : null}

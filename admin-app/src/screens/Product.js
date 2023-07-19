@@ -143,7 +143,7 @@ const Product = (props) => {
 
   const productDetailPop = () => {
     console.log("productDetail", productDetail);
-    if (!productDetail) {
+    if (!productDetail.length) {
       return null;
     }
     return (
@@ -203,7 +203,10 @@ const Product = (props) => {
                       <td>{product.price}</td>
                       <td>{product.quantity}</td>
                       <td>{product.desciption}</td>
-                      <td>{product.category.name}</td>
+                      <td>
+                        {/* category */}
+                        {product.category ? product.category.name : "category"}
+                      </td>
                     </tr>
                   );
                 })

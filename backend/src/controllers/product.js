@@ -1,7 +1,8 @@
 const product = require("../models/product");
+const category = require("../models/category");
 const slugify = require("slugify");
 
-exports.createProduct = (req, res, next) => {
+const createProduct = (req, res, next) => {
   // res.status(200).json({ file: req.files });  for check product picture
   const { name, price, desciption, quantity, category } = req.body;
   let productPictures = [];
@@ -30,4 +31,47 @@ exports.createProduct = (req, res, next) => {
     }
     return res.status(201).json({ products });
   });
+};
+
+const getProductBySlug = (req, res, next) => {
+  const { slug } = req.params;
+  console.log(slug);
+  category
+    .findOne({ slug: slug })
+    .select("_id")
+    .exec((error, category) => {
+      if (error) {
+        return res.status(400).json({ error });
+      }
+      if (category) {
+        product.find({ category: category._id }).exec((error, products) => {
+          if (error) {
+            return res.status(400).json({ error });
+          }
+          res.status(200).json({
+            products,
+            productByPrice: {
+              under5k: products.filter((product) => product.price <= 5000),
+              under10k: products.filter(
+                (product) => product.price > 5000 && product.price <= 10000
+              ),
+              under15k: products.filter(
+                (product) => product.price > 10000 && product.price <= 15000
+              ),
+              under20k: products.filter(
+                (product) => product.price > 15000 && product.price <= 20000
+              ),
+              under30k: products.filter(
+                (product) => product.price > 20000 && product.price <= 30000
+              ),
+            },
+          });
+        });
+      }
+    });
+};
+
+module.exports = {
+  createProduct,
+  getProductBySlug,
 };

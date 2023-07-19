@@ -1,4 +1,5 @@
 import React from "react";
+import Menu from "./Menu";
 
 /**
  * @author
@@ -6,5 +7,10 @@ import React from "react";
  **/
 
 export const Header = (props) => {
-  return <div>Header</div>;
+  return (
+    <div>
+      Header
+      <Menu></Menu>
+    </div>
+  );
 };
