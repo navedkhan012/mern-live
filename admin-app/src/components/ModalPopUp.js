@@ -3,7 +3,11 @@ import { Button, Modal } from "react-bootstrap";
 function ModalPopUp(props) {
   return (
     <>
-      <Modal show={props.handleShow} onHide={props.handleClose}>
+      <Modal
+        show={props.handleShow}
+        onHide={props.handleClose}
+        size={props.size}
+      >
         <Modal.Header closeButton>
           <Modal.Title>{props.heading}</Modal.Title>
         </Modal.Header>

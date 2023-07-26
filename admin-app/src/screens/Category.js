@@ -4,7 +4,10 @@ import { Layout } from "./Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { addCategory } from "../actions/category";
 import ModalPopUp from "../components/ModalPopUp";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import CheckboxTree from "react-checkbox-tree";
+
+import "react-checkbox-tree/lib/react-checkbox-tree.css";
 
 /**
  * @author
@@ -12,7 +15,17 @@ import { Button, Form } from "react-bootstrap";
  **/
 
 const Category = (props) => {
+  const [checked, setChecked] = useState([]);
+  const [expanded, setExpanded] = useState([]);
+
+  const [checkedArray, setCheckedArray] = useState([]);
+  const [expandedArray, setExpandedArray] = useState([]);
+  // const [updateCategory, setUpdateCategory] = useState(false);
+  // const [checkedUpdatedArray, setCheckedUpdatedArray] = useState([]);
+  // const [expandedUpdatedArray, setExpandedUpdatedArray] = useState([]);
+
   const [show, setShow] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [parentId, setParentId] = useState("");
   const [categoryImage, setCategoryImage] = useState({});
@@ -22,16 +35,11 @@ const Category = (props) => {
   const renderCategoryList = (categories) => {
     const categoriesArr = [];
     for (const cat of categories) {
-      categoriesArr.push(
-        <li>
-          {cat.name}
-          {cat.children.length > 0 ? (
-            <ul>
-              <li>{renderCategoryList(cat.children)}</li>
-            </ul>
-          ) : null}
-        </li>
-      );
+      categoriesArr.push({
+        label: cat.name,
+        value: cat._id,
+        children: cat.children.length > 0 && renderCategoryList(cat.children),
+      });
     }
     return categoriesArr;
   };
@@ -41,6 +49,7 @@ const Category = (props) => {
       options.push({
         value: cat._id,
         name: cat.name,
+        parentId: cat.parentId,
       });
       if (cat.children.length > 0) {
         optionCategoryList(cat.children, options);
@@ -58,32 +67,12 @@ const Category = (props) => {
     form.append("name", categoryName);
     form.append("parentId", parentId);
     form.append("categoryImage", categoryImage);
-    // const cat = {
-    //   categoryName: categoryName,
-    //   parentId: parentId,
-    //   categoryImage: categoryImage,
-    // };
-    // console.log("cat------>", cat);
     dispatch(addCategory(form));
     setShow(false);
   };
 
-  return (
-    <div>
-      <Layout sidebar>
-        <Button variant="primary" onClick={() => setShow(true)}>
-          Add Category
-        </Button>
-        <h2>Category</h2>
-        <div className="table-responsive small">
-          <ul>
-            {categories.categories.length > 0
-              ? renderCategoryList(categories.categories)
-              : "reload"}
-          </ul>
-        </div>
-      </Layout>
-
+  const renderAddCategoryModal = () => {
+    return (
       <ModalPopUp
         heading="Add category"
         handleShow={show}
@@ -120,6 +109,236 @@ const Category = (props) => {
           </Form.Select>
         </Form>
       </ModalPopUp>
+    );
+  };
+
+  const handleCategoryInput = (key, value, index, type) => {
+    if (type === "checked") {
+      // checkedArray[index] = { ...checkedArray[index], [key]: value };
+      const updateCheckedArray = checkedArray.map((item, _index) =>
+        index === _index ? { ...item, [key]: value } : item
+      );
+      setCheckedArray(updateCheckedArray);
+    } else if (type === "expanded") {
+      const updateExpandedArray = expandedArray.map((item, _index) =>
+        index === _index ? { ...item, [key]: value } : item
+      );
+      setExpandedArray(updateExpandedArray);
+    }
+  };
+  const renderEditCategoryModal = () => {
+    return (
+      <ModalPopUp
+        heading="Add category"
+        handleShow={editModal}
+        handleClose={() => setEditModal(false)}
+        handleSave={handleEditCategory}
+        size="lg"
+      >
+        <Row>
+          <Col>
+            <h5>Expanded</h5>
+          </Col>
+        </Row>
+
+        {expandedArray.length > 0 &&
+          expandedArray.map((item, index) => {
+            console.log("item", item);
+            return (
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Category name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="category name"
+                      value={item.name}
+                      onChange={(e) =>
+                        handleCategoryInput(
+                          "name",
+                          e.currentTarget.value,
+                          index,
+                          "expanded"
+                        )
+                      }
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Label>select category</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={item.parentId}
+                    onChange={(e) =>
+                      handleCategoryInput(
+                        "parentId",
+                        e.currentTarget.value,
+                        index,
+                        "expanded"
+                      )
+                    }
+                  >
+                    <option>Select parent category </option>
+                    {categories.categories.length > 0
+                      ? optionCategoryList(categories.categories).map(
+                          (option) => {
+                            return (
+                              <option value={option.value}>
+                                {option.name}{" "}
+                              </option>
+                            );
+                          }
+                        )
+                      : "reload"}
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>select type</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={parentId}
+                    onChange={(e) => setParentId(e.currentTarget.value)}
+                  >
+                    <option>Select parent category </option>
+                    <option value="store">Store </option>
+                    <option value="product">Product </option>
+                    <option value="page">Page </option>
+                  </Form.Select>
+                </Col>
+              </Row>
+            );
+          })}
+        <Row>
+          <Col>
+            <h5>checkedArray</h5>
+          </Col>
+        </Row>
+
+        {checkedArray.length > 0 &&
+          checkedArray.map((item, index) => {
+            console.log("checkedArray", item);
+            return (
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Category name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="category name"
+                      value={item.name}
+                      onChange={(e) =>
+                        handleCategoryInput(
+                          "name",
+                          e.currentTarget.value,
+                          index,
+                          "checked"
+                        )
+                      }
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Label>select category</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={item.parentId}
+                    onChange={(e) =>
+                      handleCategoryInput(
+                        "parentId",
+                        e.currentTarget.value,
+                        index,
+                        "checked"
+                      )
+                    }
+                  >
+                    <option>Select parent category </option>
+                    {categories.categories.length > 0
+                      ? optionCategoryList(categories.categories).map(
+                          (option) => {
+                            return (
+                              <option value={option.value}>
+                                {option.name}{" "}
+                              </option>
+                            );
+                          }
+                        )
+                      : "reload"}
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>select type</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={parentId}
+                    onChange={(e) => setParentId(e.currentTarget.value)}
+                  >
+                    <option>Select parent category </option>
+                    <option value="store">Store </option>
+                    <option value="product">Product </option>
+                    <option value="page">Page </option>
+                  </Form.Select>
+                </Col>
+              </Row>
+            );
+          })}
+      </ModalPopUp>
+    );
+  };
+
+  const handleEditCategory = () => {
+    setEditModal(true);
+    const categoriesList = optionCategoryList(categories.categories);
+    const checkedArray = [];
+    const expandedArray = [];
+    checked.length > 0 &&
+      checked.forEach((categoryId, index) => {
+        const category = categoriesList.find(
+          (category, _index) => categoryId == category.value
+        );
+        category && checkedArray.push(category);
+      });
+
+    expanded.length > 0 &&
+      expanded.forEach((categoryId, index) => {
+        const category = categoriesList.find(
+          (category, _index) => categoryId == category.value
+        );
+        category && expandedArray.push(category);
+      });
+
+    setCheckedArray(checkedArray);
+    setExpandedArray(expandedArray);
+  };
+  return (
+    <div>
+      <Layout sidebar>
+        <Button variant="primary" onClick={() => setShow(true)}>
+          Add Category
+        </Button>
+        <h2>Category</h2>
+        <div className="table-responsive small">
+          {/* <ul>
+            {categories.categories.length > 0
+              ? renderCategoryList(categories.categories)
+              : "reload"}
+          </ul> */}
+
+          <CheckboxTree
+            nodes={renderCategoryList(categories.categories)}
+            checked={checked}
+            expanded={expanded}
+            onCheck={(checked) => setChecked(checked)}
+            onExpand={(expanded) => setExpanded(expanded)}
+          />
+          <Button variant="outline-danger">Delete</Button>
+          <Button variant="outline-primary" onClick={handleEditCategory}>
+            Edit
+          </Button>
+        </div>
+      </Layout>
+
+      {renderAddCategoryModal()}
+      {renderEditCategoryModal()}
     </div>
   );
 };
