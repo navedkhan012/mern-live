@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { createCategory, getCategories } = require("../controllers/category");
+const {
+  createCategory,
+  getCategories,
+  updateCategories,
+} = require("../controllers/category");
 const { requireSignIn } = require("../middleware");
 const multer = require("multer");
 
@@ -22,6 +26,13 @@ router.post(
   requireSignIn,
   upload.single("categoryImage"),
   createCategory
+);
+
+router.post(
+  "/category/update",
+  // requireSignIn,
+  upload.single("categoryImage"),
+  updateCategories
 );
 
 router.get("/getcategories", getCategories);

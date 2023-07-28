@@ -23,10 +23,6 @@ exports.createCategory = (req, res, next) => {
         message: "category api issue",
       });
     }
-    // we don't need this if condition
-    // if (category) {
-    //   return res.status(201).json({ category });
-    // }
     return res.status(201).json({ category });
   });
 };
@@ -58,11 +54,51 @@ exports.getCategories = (req, res, next) => {
         message: "getCategories api issue",
       });
     }
-
     const categoroyList = createCategories(categories);
-
     return res.status(200).json({
       categoroyList,
     });
   });
+};
+
+exports.updateCategories = async (req, res, next) => {
+  // res.status(200).json({ body: req.body });
+  const { _id, name, parentId, type } = req.body;
+  const updatedCategories = [];
+  if (name instanceof Array) {
+    console.log("yes true");
+    for (let i = 0; i < name.length; i++) {
+      const categorObj = {
+        name: name[i],
+        type: type[i] ?? "product",
+      };
+      if (parentId[i] !== "") {
+        categorObj.parentId = parentId[i];
+      }
+      console.log("_id[i]", _id[i]);
+      const updatedCategory = await category.findOneAndUpdate(
+        { _id: _id[i] },
+        categorObj,
+        { new: true }
+      );
+
+      updatedCategories.push(updatedCategory);
+    }
+    return res.status(201).json({ updatedCategories });
+  } else {
+    console.log("yes false");
+    const categorObj = {
+      name,
+      type,
+    };
+    if (parentId !== "") {
+      categorObj.parentId = parentId;
+    }
+    const updatedCategory = await category.findOneAndUpdate(
+      { _id },
+      categorObj,
+      { new: true }
+    );
+    return res.status(201).json({ updatedCategory });
+  }
 };

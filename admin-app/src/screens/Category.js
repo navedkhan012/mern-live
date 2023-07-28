@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { Layout } from "./Layout";
 import { useSelector, useDispatch } from "react-redux";
-import { addCategory } from "../actions/category";
+import {
+  addCategory,
+  getAllCategories,
+  updateCategories,
+} from "../actions/category";
 import ModalPopUp from "../components/ModalPopUp";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import CheckboxTree from "react-checkbox-tree";
@@ -126,13 +130,34 @@ const Category = (props) => {
       setExpandedArray(updateExpandedArray);
     }
   };
+  const handleUpdateCategory = () => {
+    setEditModal(false);
+    const form = new FormData();
+    expandedArray.forEach((item, index) => {
+      form.append("_id", item.value);
+      form.append("name", item.name);
+      form.append("parentId", item.parentId ? item.parentId : "");
+      form.append("type", item.type);
+    });
+    checkedArray.forEach((item, index) => {
+      form.append("_id", item.value);
+      form.append("name", item.name);
+      form.append("parentId", item.parentId ? item.parentId : "");
+      form.append("type", item.type);
+    });
+    dispatch(updateCategories(form)).then((result) => {
+      if (result) {
+        dispatch(getAllCategories());
+      }
+    });
+  };
   const renderEditCategoryModal = () => {
     return (
       <ModalPopUp
         heading="Add category"
         handleShow={editModal}
         handleClose={() => setEditModal(false)}
-        handleSave={handleEditCategory}
+        handleSave={handleUpdateCategory}
         size="lg"
       >
         <Row>

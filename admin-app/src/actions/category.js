@@ -32,7 +32,6 @@ export const addCategory = (form) => {
     });
     const res = await axiosIntance.post("category/create", form);
 
-    console.log("res---------> action", res);
     if (res.status === 201) {
       dispatch({
         type: categoryConstants.ADD_CATEGORY_SUCCESS,
@@ -45,6 +44,18 @@ export const addCategory = (form) => {
         type: categoryConstants.ADD_CATEGORY_FAILURE,
         payload: res.data.error,
       });
+    }
+  };
+};
+
+export const updateCategories = (form) => {
+  return async (dispatch) => {
+    const res = await axiosIntance.post("category/update", form);
+    if (res.status === 201) {
+      return true;
+      console.log("res", res);
+    } else {
+      console.log("res", res);
     }
   };
 };
