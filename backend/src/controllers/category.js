@@ -66,7 +66,6 @@ exports.updateCategories = async (req, res, next) => {
   const { _id, name, parentId, type } = req.body;
   const updatedCategories = [];
   if (name instanceof Array) {
-    console.log("yes true");
     for (let i = 0; i < name.length; i++) {
       const categorObj = {
         name: name[i],
@@ -75,7 +74,6 @@ exports.updateCategories = async (req, res, next) => {
       if (parentId[i] !== "") {
         categorObj.parentId = parentId[i];
       }
-      console.log("_id[i]", _id[i]);
       const updatedCategory = await category.findOneAndUpdate(
         { _id: _id[i] },
         categorObj,

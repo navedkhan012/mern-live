@@ -18,7 +18,6 @@ const ProductList = (props) => {
   return (
     <Layout>
       {Object.keys(products.productByPrice).map((key, index) => {
-        // console.log("key", key);
         return (
           <div className="container p-2" key={index}>
             <div className="productListWrapper mt-4">
@@ -30,7 +29,6 @@ const ProductList = (props) => {
               </div>
               <Row>
                 {products.productByPrice[key].map((product, index) => {
-                  //   console.log("product", product);
                   return (
                     <Col sm={3} key={index}>
                       <Card>

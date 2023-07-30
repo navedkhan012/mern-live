@@ -7,12 +7,14 @@ import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getallcategory } from "../store/actions/category";
 
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Menu() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categoryList.categoroyList);
-  console.log("category", categories);
+  const categoriesMenu = useSelector(
+    (state) => state.categoryList.categoroyList
+  );
+
   useEffect(() => {
     dispatch(getallcategory());
   }, [dispatch]);
@@ -36,6 +38,7 @@ function Menu() {
     }
     return categoriesArr;
   };
+
   return (
     <Navbar expand="lg" className="navbar navbar-dark bg-primary">
       <Container>
@@ -47,7 +50,7 @@ function Menu() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            {categories && renderCategoryList(categories)}
+            {categoriesMenu && renderCategoryList(categoriesMenu)}
             {/* <Nav.Link href="#action1">Home</Nav.Link> */}
             {/* <Nav.Link href="#action2">Link</Nav.Link> */}
             {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
