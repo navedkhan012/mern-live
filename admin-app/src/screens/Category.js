@@ -4,6 +4,7 @@ import { Layout } from "./Layout";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addCategory,
+  deleteCategoriesAction,
   getAllCategories,
   updateCategories,
 } from "../actions/category";
@@ -29,6 +30,7 @@ const Category = (props) => {
   // const [expandedUpdatedArray, setExpandedUpdatedArray] = useState([]);
 
   const [show, setShow] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [parentId, setParentId] = useState("");
@@ -310,8 +312,69 @@ const Category = (props) => {
     );
   };
 
+  const deleteCategory = () => {
+    alert("deleteCategory");
+    updateCheckedAndExpandedCategories();
+    setDeleteModal(true);
+    // const checkedIdsArray = checked.length > 0 ? checked : [];
+    // const expandedIdsArray = expanded.length > 0 ? expanded : [];
+    // const idsArray = expandedIdsArray.concat(checkedIdsArray);
+
+    // console.log("idsArray", idsArray);
+    // dispatch(updateCategories({ _id: idsArray })).then((result) => {
+    //   if (result) {
+    //     dispatch(getAllCategories());
+    //   }
+    // });
+  };
+
+  const deleteCategories = () => {
+    const checkedIdsArray = checked.length > 0 ? checked : [];
+    const expandedIdsArray = expanded.length > 0 ? expanded : [];
+    const idsArray = expandedIdsArray.concat(checkedIdsArray);
+    // console.log("idsArray>>", idsArray);
+    // console.log("checkedIdsArray>>", checkedIdsArray);
+    dispatch(deleteCategoriesAction(idsArray)).then((result) => {
+      if (result) {
+        dispatch(getAllCategories());
+      }
+    });
+    setDeleteModal(false);
+  };
+
+  const renderDeleteCategoryModal = () => {
+    return (
+      <ModalPopUp
+        heading="Category delete confirmation"
+        handleShow={deleteModal}
+        handleClose={() => setDeleteModal(false)}
+        handleSave={deleteCategories}
+        size="lg"
+        closeText="No"
+        saveText="Yes"
+      >
+        <Row>
+          <Col>
+            <h5>Do you want to delete this categy</h5>
+            <h6>Checked</h6>
+            {checkedArray.map((item, index) => {
+              return <h5>{item.name}</h5>;
+            })}
+            <h6>Expanded</h6>
+            {expandedArray.map((item, index) => {
+              return <h5>{item.name}</h5>;
+            })}
+          </Col>
+        </Row>
+      </ModalPopUp>
+    );
+  };
   const handleEditCategory = () => {
     setEditModal(true);
+    updateCheckedAndExpandedCategories();
+  };
+
+  const updateCheckedAndExpandedCategories = () => {
     const categoriesList = optionCategoryList(categories.categories);
     const checkedArray = [];
     const expandedArray = [];
@@ -334,6 +397,7 @@ const Category = (props) => {
     setCheckedArray(checkedArray);
     setExpandedArray(expandedArray);
   };
+
   return (
     <div>
       <Layout sidebar>
@@ -355,7 +419,9 @@ const Category = (props) => {
             onCheck={(checked) => setChecked(checked)}
             onExpand={(expanded) => setExpanded(expanded)}
           />
-          <Button variant="outline-danger">Delete</Button>
+          <Button variant="outline-danger" onClick={deleteCategory}>
+            Delete
+          </Button>
           <Button variant="outline-primary" onClick={handleEditCategory}>
             Edit
           </Button>
@@ -364,6 +430,7 @@ const Category = (props) => {
 
       {renderAddCategoryModal()}
       {renderEditCategoryModal()}
+      {renderDeleteCategoryModal()}
     </div>
   );
 };

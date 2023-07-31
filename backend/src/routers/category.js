@@ -4,6 +4,7 @@ const {
   createCategory,
   getCategories,
   updateCategories,
+  deleteCategories,
 } = require("../controllers/category");
 const { requireSignIn } = require("../middleware");
 const multer = require("multer");
@@ -34,6 +35,8 @@ router.post(
   upload.single("categoryImage"),
   updateCategories
 );
+
+router.post("/category/delete", deleteCategories);
 
 router.get("/getcategories", getCategories);
 

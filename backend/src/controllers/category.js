@@ -1,4 +1,4 @@
-const category = require("../models/category");
+const Category = require("../models/category");
 const slugify = require("slugify");
 
 exports.createCategory = (req, res, next) => {
@@ -16,7 +16,7 @@ exports.createCategory = (req, res, next) => {
     categoryObj.parentId = req.body.parentId;
   }
 
-  const cat = new category(categoryObj);
+  const cat = new Category(categoryObj);
   cat.save((error, category) => {
     if (error) {
       return res.status(400).json({
@@ -48,7 +48,7 @@ function createCategories(categories, parentId = null) {
 }
 
 exports.getCategories = (req, res, next) => {
-  category.find({}).exec((error, categories) => {
+  Category.find({}).exec((error, categories) => {
     if (error) {
       return res.status(400).json({
         message: "getCategories api issue",
@@ -74,7 +74,7 @@ exports.updateCategories = async (req, res, next) => {
       if (parentId[i] !== "") {
         categorObj.parentId = parentId[i];
       }
-      const updatedCategory = await category.findOneAndUpdate(
+      const updatedCategory = await Category.findOneAndUpdate(
         { _id: _id[i] },
         categorObj,
         { new: true }
@@ -92,11 +92,28 @@ exports.updateCategories = async (req, res, next) => {
     if (parentId !== "") {
       categorObj.parentId = parentId;
     }
-    const updatedCategory = await category.findOneAndUpdate(
+    const updatedCategory = await Category.findOneAndUpdate(
       { _id },
       categorObj,
       { new: true }
     );
     return res.status(201).json({ updatedCategory });
+  }
+};
+
+exports.deleteCategories = async (req, res, next) => {
+  // res.status(200).json({ body: req.body });
+  const { ids } = req.body.payload;
+  const deletedCategories = [];
+  for (let i = 0; i < ids.length; i++) {
+    let deleteCategory = await Category.findOneAndDelete({
+      _id: ids[i]._id,
+    });
+    deletedCategories.push(deleteCategory);
+  }
+  if (deletedCategories.length == ids.length) {
+    return res.status(201).json({ message: "deleted done" });
+  } else {
+    return res.status(400).json({ message: "Something went wrong" });
   }
 };

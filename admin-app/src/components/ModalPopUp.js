@@ -14,10 +14,10 @@ function ModalPopUp(props) {
         <Modal.Body>{props.children}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.handleClose}>
-            Close
+            {props.closeText ? props.closeText : "Close"}
           </Button>
           <Button variant="primary" onClick={props.handleSave}>
-            Save Changes
+            {props.saveText ? props.saveText : "Save Changes"}
           </Button>
         </Modal.Footer>
       </Modal>

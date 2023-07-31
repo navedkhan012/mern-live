@@ -53,9 +53,19 @@ export const updateCategories = (form) => {
     const res = await axiosIntance.post("category/update", form);
     if (res.status === 201) {
       return true;
-      console.log("res", res);
     } else {
-      console.log("res", res);
+      return false;
     }
+  };
+};
+
+export const deleteCategoriesAction = (ids) => {
+  return async (dispatch) => {
+    const res = await axiosIntance.post("category/delete", {
+      payload: {
+        ids,
+      },
+    });
+    console.log("deleteCategories res", res);
   };
 };
