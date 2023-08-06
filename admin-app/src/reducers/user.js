@@ -6,7 +6,7 @@ const initinalState = {
   loading: false,
 };
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (state = {}, action) => {
+export default (state = initinalState, action) => {
   switch (action.type) {
     case userConstants.USER_REGISTER_REQUEST:
       state = {

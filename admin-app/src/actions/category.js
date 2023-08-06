@@ -1,7 +1,7 @@
 import axiosIntance from "../helpers/axios";
 import { categoryConstants } from "./constants";
 
-export const getAllCategories = () => {
+const getAllCategories = () => {
   return async (dispatch) => {
     dispatch({
       type: categoryConstants.CATEGORY_REQUEST,
@@ -50,22 +50,53 @@ export const addCategory = (form) => {
 
 export const updateCategories = (form) => {
   return async (dispatch) => {
+    dispatch({
+      type: categoryConstants.UPDATE_CATEGORY_REQUEST,
+    });
     const res = await axiosIntance.post("category/update", form);
     if (res.status === 201) {
-      return true;
+      dispatch({
+        type: categoryConstants.UPDATE_CATEGORY_SUCCESS,
+      });
+      dispatch(getAllCategories());
     } else {
-      return false;
+      dispatch({
+        type: categoryConstants.UPDATE_CATEGORY_FAILURE,
+        payload: {
+          error: res.data.error,
+        },
+      });
     }
   };
 };
 
 export const deleteCategoriesAction = (ids) => {
   return async (dispatch) => {
+    dispatch({
+      type: categoryConstants.DELETE_CATEGORY_REQUEST,
+    });
     const res = await axiosIntance.post("category/delete", {
       payload: {
         ids,
       },
     });
-    console.log("deleteCategories res", res);
+    if (res.status === 201) {
+      dispatch({
+        type: categoryConstants.DELETE_CATEGORY_SUCCESS,
+        payload: {
+          message: res.data.message,
+        },
+      });
+      dispatch(getAllCategories());
+    } else {
+      dispatch({
+        type: categoryConstants.DELETE_CATEGORY_FAILURE,
+        payload: {
+          error: res.data.error,
+        },
+      });
+    }
   };
 };
+
+export { getAllCategories };

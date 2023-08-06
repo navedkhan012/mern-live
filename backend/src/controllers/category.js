@@ -102,12 +102,11 @@ exports.updateCategories = async (req, res, next) => {
 };
 
 exports.deleteCategories = async (req, res, next) => {
-  // res.status(200).json({ body: req.body });
   const { ids } = req.body.payload;
   const deletedCategories = [];
   for (let i = 0; i < ids.length; i++) {
     let deleteCategory = await Category.findOneAndDelete({
-      _id: ids[i]._id,
+      _id: ids[i],
     });
     deletedCategories.push(deleteCategory);
   }

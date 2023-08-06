@@ -147,11 +147,7 @@ const Category = (props) => {
       form.append("parentId", item.parentId ? item.parentId : "");
       form.append("type", item.type);
     });
-    dispatch(updateCategories(form)).then((result) => {
-      if (result) {
-        dispatch(getAllCategories());
-      }
-    });
+    dispatch(updateCategories(form));
   };
   const renderEditCategoryModal = () => {
     return (
@@ -313,27 +309,14 @@ const Category = (props) => {
   };
 
   const deleteCategory = () => {
-    alert("deleteCategory");
     updateCheckedAndExpandedCategories();
     setDeleteModal(true);
-    // const checkedIdsArray = checked.length > 0 ? checked : [];
-    // const expandedIdsArray = expanded.length > 0 ? expanded : [];
-    // const idsArray = expandedIdsArray.concat(checkedIdsArray);
-
-    // console.log("idsArray", idsArray);
-    // dispatch(updateCategories({ _id: idsArray })).then((result) => {
-    //   if (result) {
-    //     dispatch(getAllCategories());
-    //   }
-    // });
   };
 
   const deleteCategories = () => {
     const checkedIdsArray = checked.length > 0 ? checked : [];
     const expandedIdsArray = expanded.length > 0 ? expanded : [];
     const idsArray = expandedIdsArray.concat(checkedIdsArray);
-    // console.log("idsArray>>", idsArray);
-    // console.log("checkedIdsArray>>", checkedIdsArray);
     dispatch(deleteCategoriesAction(idsArray)).then((result) => {
       if (result) {
         dispatch(getAllCategories());
