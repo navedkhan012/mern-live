@@ -14,8 +14,10 @@ import { isUserLoggedIn } from "./actions";
 import Product from "./screens/Product";
 import Order from "./screens/Order";
 import Category from "./screens/Category";
+import Page from "./screens/Page";
 import { getAllCategories } from "./actions/category";
 import { getInitialData } from "./actions/initialdata";
+
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -33,6 +35,7 @@ function App() {
         <Header />
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute path="/Page" component={Page} />
           <PrivateRoute path="/products" component={Product} />
           <PrivateRoute path="/categories" component={Category} />
           <PrivateRoute path="/orders" component={Order} />

@@ -45,6 +45,14 @@ export const Layout = (props) => {
                     <li className="nav-item">
                       <NavLink
                         className="nav-link d-flex align-items-center gap-2 "
+                        to="/page"
+                      >
+                        Page
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link d-flex align-items-center gap-2 "
                         to="/categories"
                       >
                         Categories

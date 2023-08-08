@@ -18,6 +18,19 @@ import "react-checkbox-tree/lib/react-checkbox-tree.css";
  * @author
  * @function Category
  **/
+export const optionCategoryList = (categories, options = []) => {
+  for (const cat of categories) {
+    options.push({
+      value: cat._id,
+      name: cat.name,
+      parentId: cat.parentId,
+    });
+    if (cat.children.length > 0) {
+      optionCategoryList(cat.children, options);
+    }
+  }
+  return options;
+};
 
 const Category = (props) => {
   const [checked, setChecked] = useState([]);
@@ -49,20 +62,6 @@ const Category = (props) => {
       });
     }
     return categoriesArr;
-  };
-
-  const optionCategoryList = (categories, options = []) => {
-    for (const cat of categories) {
-      options.push({
-        value: cat._id,
-        name: cat.name,
-        parentId: cat.parentId,
-      });
-      if (cat.children.length > 0) {
-        optionCategoryList(cat.children, options);
-      }
-    }
-    return options;
   };
 
   const handleChangeImage = (e) => {

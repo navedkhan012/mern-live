@@ -17,7 +17,6 @@ export const signupAction = (user) => {
     if (res.status === 200) {
       //   const { token, user } = res.data;
       //   localStorage.setItem("user", JSON.stringify(user));
-      console.log("res.data", res.data);
       dispatch({
         type: userConstants.USER_REGISTER_SUCCESS,
         payload: {
