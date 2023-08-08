@@ -15,6 +15,9 @@ exports.createCategory = (req, res, next) => {
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
   }
+  if (req.body.type) {
+    categoryObj.type = req.body.type;
+  }
 
   const cat = new Category(categoryObj);
   cat.save((error, category) => {
@@ -41,6 +44,7 @@ function createCategories(categories, parentId = null) {
       name: cate.name,
       slug: cate.slug,
       parentId: cate.parentId,
+      type: cate.type,
       children: createCategories(categories, cate._id),
     });
   }
@@ -62,7 +66,6 @@ exports.getCategories = (req, res, next) => {
 };
 
 exports.updateCategories = async (req, res, next) => {
-  // res.status(200).json({ body: req.body });
   const { _id, name, parentId, type } = req.body;
   const updatedCategories = [];
   if (name instanceof Array) {
@@ -84,7 +87,6 @@ exports.updateCategories = async (req, res, next) => {
     }
     return res.status(201).json({ updatedCategories });
   } else {
-    console.log("yes false");
     const categorObj = {
       name,
       type,

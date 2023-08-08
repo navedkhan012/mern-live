@@ -29,6 +29,7 @@ const Category = (props) => {
   // const [checkedUpdatedArray, setCheckedUpdatedArray] = useState([]);
   // const [expandedUpdatedArray, setExpandedUpdatedArray] = useState([]);
 
+  const [pageType, setPageType] = useState("product");
   const [show, setShow] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -73,6 +74,8 @@ const Category = (props) => {
     form.append("name", categoryName);
     form.append("parentId", parentId);
     form.append("categoryImage", categoryImage);
+    form.append("type", pageType);
+
     dispatch(addCategory(form));
     setShow(false);
   };
@@ -80,7 +83,7 @@ const Category = (props) => {
   const renderAddCategoryModal = () => {
     return (
       <ModalPopUp
-        heading="Add category"
+        heading="Add category add"
         handleShow={show}
         handleClose={() => setShow(false)}
         handleSave={handleCategorySave}
@@ -112,6 +115,17 @@ const Category = (props) => {
                   return <option value={option.value}>{option.name} </option>;
                 })
               : "reload"}
+          </Form.Select>
+
+          <Form.Select
+            aria-label="Page type"
+            value={pageType}
+            onChange={(e) => setPageType(e.currentTarget.value)}
+          >
+            <option>Select parent category </option>
+            <option value="store">Store </option>
+            <option value="product">Product </option>
+            <option value="page">Page </option>
           </Form.Select>
         </Form>
       </ModalPopUp>
@@ -219,8 +233,15 @@ const Category = (props) => {
                   <Form.Label>select type</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    value={parentId}
-                    onChange={(e) => setParentId(e.currentTarget.value)}
+                    value={item.type}
+                    onChange={(e) =>
+                      handleCategoryInput(
+                        "type",
+                        e.currentTarget.value,
+                        index,
+                        "expanded"
+                      )
+                    }
                   >
                     <option>Select parent category </option>
                     <option value="store">Store </option>
@@ -292,8 +313,15 @@ const Category = (props) => {
                   <Form.Label>select type</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    value={parentId}
-                    onChange={(e) => setParentId(e.currentTarget.value)}
+                    value={item.type}
+                    onChange={(e) =>
+                      handleCategoryInput(
+                        "type",
+                        e.currentTarget.value,
+                        index,
+                        "checked"
+                      )
+                    }
                   >
                     <option>Select parent category </option>
                     <option value="store">Store </option>
