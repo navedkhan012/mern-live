@@ -35,7 +35,6 @@ const createProduct = (req, res, next) => {
 
 const getProductBySlug = (req, res, next) => {
   const { slug } = req.params;
-  console.log(slug);
   category
     .findOne({ slug: slug })
     .select("_id")

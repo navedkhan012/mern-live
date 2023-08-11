@@ -25,8 +25,10 @@ function App() {
     if (!auth.token) {
       dispatch(isUserLoggedIn());
     }
-    dispatch(getAllCategories());
-    dispatch(getInitialData());
+    if (auth.token) {
+      dispatch(getAllCategories());
+      dispatch(getInitialData());
+    }
   }, [auth.token, dispatch]);
 
   return (
