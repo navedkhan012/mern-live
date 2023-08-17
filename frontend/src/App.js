@@ -2,9 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Home } from "./screens/Home";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Menu from "./components/Menu";
-import { Header } from "./components/Header";
-import ProductList from "./screens/ProductList";
+import Product from "./screens/Product";
 // import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -13,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/:slug" component={ProductList} />
+          <Route path="/:slug" component={Product} />
           {/* <PrivateRoute path="/products" component={Product} />
           <PrivateRoute path="/categories" component={Category} />
           <PrivateRoute path="/orders" component={Order} />

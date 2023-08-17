@@ -3,27 +3,31 @@ import Layout from "./Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductBySlug } from "../store/actions/product";
 import { Col, Card, Button, Row } from "react-bootstrap";
+import { getSearchParmasInObject } from "../utils/params";
+
 /**
  * @author
  * @function ProductList
  **/
 
 const ProductList = (props) => {
-  const slug = props.match.params.slug;
+  // const slug = props.match.params.slug;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
   useEffect(() => {
-    dispatch(getProductBySlug(slug));
-  }, [dispatch, slug]);
+    dispatch(getProductBySlug(props.slug));
+  }, [dispatch, props.slug]);
+
+  // console.log(slug);
   return (
-    <Layout>
+    <div>
       {Object.keys(products.productByPrice).map((key, index) => {
         return (
           <div className="container p-2" key={index}>
             <div className="productListWrapper mt-4">
               <div className="d-flex justify-content-between mb-2">
                 <h3>
-                  {slug} samsung mobile {key}
+                  {props.slug} samsung mobile {key}
                 </h3>
                 <Button variant="primary">View All</Button>
               </div>
@@ -52,7 +56,7 @@ const ProductList = (props) => {
           </div>
         );
       })}
-    </Layout>
+    </div>
   );
 };
 

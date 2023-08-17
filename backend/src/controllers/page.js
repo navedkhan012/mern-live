@@ -15,14 +15,50 @@ exports.createPage = (req, res, next) => {
     }));
   }
   req.body.createdBy = req.user._id;
-  const page = new Page(req.body);
 
-  page.save((error, page) => {
+  Page.findOne({ category: req.body.category }).exec((error, page) => {
     if (error) return res.status(400).json({ error });
     if (page) {
-      res.status(200).json({ page });
+      Page.findOneAndUpdate({ category: req.body.category }, req.body).exec(
+        (error, updatedPage) => {
+          if (error) return res.status(400).json({ error });
+          if (updatedPage) {
+            return res.status(201).json({ page: updatedPage });
+          }
+        }
+      );
+    } else {
+      const page = new Page(req.body);
+      page.save((error, page) => {
+        if (error) return res.status(400).json({ error });
+        if (page) {
+          res.status(200).json({ page });
+        }
+      });
     }
   });
 
+  // const page = new Page(req.body);
+
+  // page.save((error, page) => {
+  //   if (error) return res.status(400).json({ error });
+  //   if (page) {
+  //     res.status(200).json({ page });
+  //   }
+  // });
+
   // res.status(200).json({ body: req.body });
+};
+
+exports.getProductPage = (req, res) => {
+  const { cid, type } = req.params;
+  console.log(req.params);
+  if (type === "store") {
+    Page.findOne({ category: cid }).exec((error, page) => {
+      if (error) return res.status(400).json({ error });
+      if (page) {
+        return res.status(200).json({ page });
+      }
+    });
+  }
 };

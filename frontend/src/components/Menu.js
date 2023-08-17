@@ -17,13 +17,15 @@ function Menu() {
 
   useEffect(() => {
     dispatch(getallcategory());
-  }, [dispatch]);
+  }, []);
   const renderCategoryList = (categories) => {
     const categoriesArr = [];
     for (const cat of categories) {
       categoriesArr.push(
         <li className="menu_parent">
-          <NavLink to={cat.name}>{cat.name}</NavLink>
+          <NavLink to={`/${cat.slug}?cid=${cat._id}&type=${cat.type}`}>
+            {cat.name}
+          </NavLink>
           {cat.children.length > 0 ? (
             <ul className="menu_children">
               <li>
@@ -42,7 +44,9 @@ function Menu() {
   return (
     <Navbar expand="lg" className="navbar navbar-dark bg-primary">
       <Container>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <NavLink to="/">
+          <Navbar.Brand>MY Store</Navbar.Brand>{" "}
+        </NavLink>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

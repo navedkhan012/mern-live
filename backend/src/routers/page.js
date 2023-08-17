@@ -1,5 +1,5 @@
 const express = require("express");
-const { createPage } = require("../controllers/page");
+const { createPage, getProductPage } = require("../controllers/page");
 const { upload, requireSignIn } = require("../middleware");
 const router = express.Router();
 
@@ -17,4 +17,5 @@ router.post(
   createPage
 );
 
+router.get("/page/:cid/:type", getProductPage);
 module.exports = router;
