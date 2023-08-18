@@ -9,7 +9,6 @@ import Menu from "./Menu";
 export const Header = (props) => {
   return (
     <div>
-      Header
       <Menu></Menu>
     </div>
   );

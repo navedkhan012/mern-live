@@ -2,7 +2,6 @@ import axiosIntance from "../helpers/axios";
 import { userConstants } from "./constants";
 
 export const signupAction = (user) => {
-  console.log("user", user);
   return async (dispatch) => {
     dispatch({
       type: userConstants.USER_REGISTER_REQUEST,

@@ -15,7 +15,6 @@ export const Header = (props) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const logout = () => {
-    alert("yes");
     dispatch(signout());
   };
   const loggedNavigation = () => {

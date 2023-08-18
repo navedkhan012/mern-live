@@ -2,7 +2,6 @@ import axiosIntance from "../helpers/axios";
 import { productConstants } from "./constants";
 
 export const addProduct = (form) => {
-  console.log("form", form);
   return async (dispatch) => {
     dispatch({
       type: productConstants.ADD_PRODUCT_REQUEST,

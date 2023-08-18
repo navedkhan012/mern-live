@@ -7,7 +7,6 @@ export const createPageAction = (from) => {
       type: pageConstants.PAGE_REGISTER_REQUEST,
     });
     const result = await axiosIntance.post("page", from);
-    console.log("result page api", result);
     if (result.status === 200) {
       dispatch({
         type: pageConstants.PAGE_REGISTER_SUCCESS,
