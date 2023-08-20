@@ -117,7 +117,11 @@ function Menu() {
 
               {/* <Nav.Link href="#action2">Link</Nav.Link> */}
               {auth.token ? (
-                <Nav.Link href="#action2">{auth.user.fullName}</Nav.Link>
+                <>
+                  <Nav.Link href="#action2">{auth.user.fullName}</Nav.Link>
+                  <Nav.Link href="#signlout">Sign out</Nav.Link>
+                  <Nav.Link href="#profile">Profile</Nav.Link>
+                </>
               ) : (
                 <NavDropdown title="Login" id="navbarScrollingDropdown">
                   <NavDropdown.Item onClick={() => setLoginModal(true)}>

@@ -40,7 +40,12 @@ const ProductDetail = (props) => {
               </Button>
             </div>
           </Col>
-          <Col xs={9}>2 of 2{JSON.stringify(productDetail)}</Col>
+          <Col xs={9}>
+            2 of 2{JSON.stringify(productDetail)}
+            <h2>{productDetail.name}</h2>
+            <h5>{productDetail.desciption}</h5>
+            <h2>₹ {productDetail.price}</h2>
+          </Col>
         </Row>
       </Container>
     </Layout>
