@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductBySlug } from "../store/actions/product";
 import { Col, Card, Button, Row } from "react-bootstrap";
 import { getSearchParmasInObject } from "../utils/params";
+import { Link } from "react-router-dom";
 
 /**
  * @author
@@ -36,10 +37,12 @@ const ProductList = (props) => {
                   return (
                     <Col sm={3} key={index}>
                       <Card>
-                        <Card.Img
-                          variant="top"
-                          src="https://images.pexels.com/photos/1786433/pexels-photo-1786433.jpeg"
-                        />
+                        <Link to={`${product.slug}/${product._id}/p`}>
+                          <Card.Img
+                            variant="top"
+                            src="https://images.pexels.com/photos/1786433/pexels-photo-1786433.jpeg"
+                          />
+                        </Link>
                         <Card.Body>
                           <Card.Title>{product.name}</Card.Title>
                           <Card.Title>Price {product.price}</Card.Title>

@@ -25,7 +25,11 @@ function Menu() {
 
   useEffect(() => {
     dispatch(getallcategory());
-  }, []);
+
+    if (auth.authenticate) {
+      return;
+    }
+  }, [auth.authenticate, dispatch]);
   const renderCategoryList = (categories) => {
     const categoriesArr = [];
     for (const cat of categories) {
@@ -112,17 +116,20 @@ function Menu() {
               {categoriesMenu && renderCategoryList(categoriesMenu)}
 
               {/* <Nav.Link href="#action2">Link</Nav.Link> */}
-
-              <NavDropdown title="Login" id="navbarScrollingDropdown">
-                <NavDropdown.Item onClick={() => setLoginModal(true)}>
-                  Login
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#signup">signup</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
-                  Something else here
-                </NavDropdown.Item>
-              </NavDropdown>
+              {auth.token ? (
+                <Nav.Link href="#action2">{auth.user.fullName}</Nav.Link>
+              ) : (
+                <NavDropdown title="Login" id="navbarScrollingDropdown">
+                  <NavDropdown.Item onClick={() => setLoginModal(true)}>
+                    Login
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#signup">signup</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action5">
+                    Something else here
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
             </Nav>
 
             <Form className="d-flex">

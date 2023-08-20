@@ -70,7 +70,21 @@ const getProductBySlug = (req, res, next) => {
     });
 };
 
+const getProductById = (req, res, next) => {
+  const { productId } = req.params;
+  console.log("productId", productId);
+  product.findById({ _id: productId }).exec((error, product) => {
+    if (error) {
+      return res.status(400).json({
+        message: error,
+      });
+    }
+    return res.status(200).json({ product });
+  });
+};
+
 module.exports = {
   createProduct,
   getProductBySlug,
+  getProductById,
 };

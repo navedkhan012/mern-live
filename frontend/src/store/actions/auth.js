@@ -32,3 +32,27 @@ export const loginAction = (user) => {
     }
   };
 };
+
+export const isUserLoggedIn = () => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token) {
+      dispatch({
+        type: authConstants.LOGIN_SUCCESS,
+        payload: {
+          token,
+          user,
+        },
+      });
+    } else {
+      dispatch({
+        type: authConstants.LOGIN_FAILURE,
+        payload: {
+          error: "user need to login",
+        },
+      });
+    }
+  };
+};
