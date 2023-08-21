@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetailById } from "../store/actions/product";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { addToCart } from "../store/actions/cart";
 
 /**
  * @author
@@ -13,15 +14,19 @@ const ProductDetail = (props) => {
   const dispatch = useDispatch();
   const productDetail = useSelector((state) => state.productDetail);
 
-  console.log("productDetail", productDetail);
   const productId = props.match.params.productId;
-
+  console.log("productDetail", productDetail);
   useEffect(() => {
     if (productId) {
       dispatch(getProductDetailById(productId));
     }
   }, [dispatch, productId, props.match.params.productId]);
 
+  const onSubmitCart = () => {
+    const { _id, name, price, img, quantity } = productDetail;
+    dispatch(addToCart({ _id, name, price, img, quantity }));
+    props.history.push("/cart");
+  };
   return (
     <Layout>
       <Container>
@@ -32,7 +37,7 @@ const ProductDetail = (props) => {
               thumbnail
             />
             <div className="d-grid gap-2">
-              <Button variant="primary" size="lg">
+              <Button variant="primary" size="lg" onClick={onSubmitCart}>
                 Add to cart
               </Button>
               <Button variant="secondary" size="lg">

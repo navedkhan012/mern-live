@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn } from "./store/actions/auth";
 import ProductDetail from "./screens/ProductDetail";
 import { Cart } from "./screens/Cart";
+import { updateCart } from "./store/actions/cart";
 // import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -17,7 +18,10 @@ function App() {
     if (!auth.token) {
       dispatch(isUserLoggedIn());
     }
-  }, []);
+  }, [auth.token, dispatch]);
+  useEffect(() => {
+    dispatch(updateCart());
+  }, [dispatch]);
   return (
     <>
       <BrowserRouter>
