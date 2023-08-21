@@ -56,3 +56,22 @@ export const isUserLoggedIn = () => {
     }
   };
 };
+
+export const signOut = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: authConstants.LOGOUT_REQUEST,
+    });
+    localStorage.clear();
+    dispatch({
+      type: authConstants.LOGOUT_SUCCESS,
+    });
+
+    // const res = await axiosIntance.post("/signout");
+    // if(res) {
+
+    // }else{
+
+    // }
+  };
+};

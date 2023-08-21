@@ -9,7 +9,7 @@ import { getallcategory } from "../store/actions/category";
 
 import { NavLink } from "react-router-dom";
 import ModalPopUp from "./ModalPopUp";
-import { loginAction } from "../store/actions/auth";
+import { loginAction, signOut } from "../store/actions/auth";
 
 function Menu() {
   const [loginModal, setLoginModal] = useState(false);
@@ -21,8 +21,6 @@ function Menu() {
   );
   const auth = useSelector((state) => state.auth);
 
-  console.log(auth);
-
   useEffect(() => {
     dispatch(getallcategory());
 
@@ -30,6 +28,10 @@ function Menu() {
       return;
     }
   }, [auth.authenticate, dispatch]);
+
+  const signOutClick = () => {
+    dispatch(signOut());
+  };
   const renderCategoryList = (categories) => {
     const categoriesArr = [];
     for (const cat of categories) {
@@ -119,7 +121,7 @@ function Menu() {
               {auth.token ? (
                 <>
                   <Nav.Link href="#action2">{auth.user.fullName}</Nav.Link>
-                  <Nav.Link href="#signlout">Sign out</Nav.Link>
+                  <Nav.Link onClick={signOutClick}>Sign out</Nav.Link>
                   <Nav.Link href="#profile">Profile</Nav.Link>
                 </>
               ) : (
