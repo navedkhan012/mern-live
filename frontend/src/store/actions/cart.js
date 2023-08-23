@@ -1,12 +1,12 @@
 import store from "..";
 import { cartConstants } from "../constents";
 
-export const addToCart = (product) => {
+export const addToCart = (product, newqty = 1) => {
   return async (dispatch) => {
     const { cartItems } = store.getState().cart;
 
     const quantity = cartItems[product._id]
-      ? parseInt(cartItems[product._id].quantity + 1)
+      ? parseInt(cartItems[product._id].quantity + newqty)
       : 1;
 
     cartItems[product._id] = {

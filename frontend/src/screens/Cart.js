@@ -1,7 +1,11 @@
-import React from "react";
+// start 34
+import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import "./cart.css";
+import CartItem from "./CartItem";
+import { addToCart } from "../store/actions/cart";
 
 /**
  * @author
@@ -10,8 +14,22 @@ import { useSelector } from "react-redux";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
+  // const cartItems = cart.cartItems;
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
 
-  console.log("cart", Object.keys(cart.cartItems));
+  const onQtyIncrement = (id, qty) => {
+    const { _id, name, price, img } = cartItems[id];
+    dispatch(addToCart({ _id, name, price, img }, 1));
+    // console.log({ id, qty });
+  };
+  const onQtyDecrement = (id, qty) => {
+    const { _id, name, price, img } = cartItems[id];
+    dispatch(addToCart({ _id, name, price, img }, -1));
+  };
   return (
     <Layout>
       <Container>
@@ -25,20 +43,16 @@ export const Cart = (props) => {
                   {/* {JSON.stringify(cart.cartItems)} */}
                   {/* Some quick example text to build on the card title and make up
                   the bulk of the card's content. */}
-                  {Object.keys(cart.cartItems).map((key, index) => (
-                    <div
-                      style={{
-                        border: "1px solid red",
-                        padding: 10,
-                        borderRadius: 8,
-                        backgroundColor: "#f5f5f5",
-                      }}
-                      className="mb-2"
-                    >
-                      <h4 key={index}>{cart.cartItems[key].name}</h4>
-                      <h5 key={index}>{cart.cartItems[key].quantity}</h5>
-                      <h5 key={index}>{cart.cartItems[key].price}</h5>
-                    </div>
+                  {Object.keys(cartItems).length === 0 && (
+                    <div>Add sonthing in cart</div>
+                  )}
+                  {Object.keys(cartItems).map((key, index) => (
+                    <CartItem
+                      index={index}
+                      cartItem={cartItems[key]}
+                      onQtyIncrement={onQtyIncrement}
+                      onQtyDecrement={onQtyDecrement}
+                    />
                   ))}
                 </Card.Text>
               </Card.Body>
