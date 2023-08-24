@@ -1,3 +1,4 @@
+// start 35
 import { authConstants } from "../constents";
 import axiosIntance from "./axiosIntance";
 
@@ -62,9 +63,14 @@ export const signOut = () => {
     dispatch({
       type: authConstants.LOGOUT_REQUEST,
     });
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("user");
     localStorage.clear();
     dispatch({
       type: authConstants.LOGOUT_SUCCESS,
+    });
+    dispatch({
+      type: authConstants.RESET_CART,
     });
 
     // const res = await axiosIntance.post("/signout");

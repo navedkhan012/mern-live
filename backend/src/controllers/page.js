@@ -52,7 +52,6 @@ exports.createPage = (req, res, next) => {
 
 exports.getProductPage = (req, res) => {
   const { cid, type } = req.params;
-  console.log(req.params);
   if (type === "store") {
     Page.findOne({ category: cid }).exec((error, page) => {
       if (error) return res.status(400).json({ error });
