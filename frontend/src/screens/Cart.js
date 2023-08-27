@@ -1,7 +1,7 @@
 // start 34
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "./cart.css";
 import CartItem from "./CartItem";
@@ -47,9 +47,6 @@ export const Cart = (props) => {
               <Card.Body>
                 <Card.Title>Cart information</Card.Title>
                 <Card.Text>
-                  {/* {JSON.stringify(cart.cartItems)} */}
-                  {/* Some quick example text to build on the card title and make up
-                  the bulk of the card's content. */}
                   {Object.keys(cartItems).length === 0 && (
                     <div>Add sonthing in cart</div>
                   )}
@@ -63,6 +60,11 @@ export const Cart = (props) => {
                   ))}
                 </Card.Text>
               </Card.Body>
+              {Object.keys(cartItems).length !== 0 && (
+                <Col className="d-flex justify-content-end p-4">
+                  <Button size="lg">Place order</Button>
+                </Col>
+              )}
             </Card>
           </Col>
           <Col sm={4}>detail</Col>

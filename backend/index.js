@@ -13,6 +13,7 @@ const productRouters = require("./src/routers/product");
 const cartRouters = require("./src/routers/cart");
 const initialdataRouters = require("./src/routers/initialdata");
 const pageRouters = require("./src/routers/page");
+const addressRouters = require("./src/routers/address");
 
 // env config
 env.config();
@@ -38,6 +39,7 @@ app.use("/api", productRouters);
 app.use("/api", cartRouters);
 app.use("/api", initialdataRouters);
 app.use("/api", pageRouters);
+app.use("/api", addressRouters);
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
