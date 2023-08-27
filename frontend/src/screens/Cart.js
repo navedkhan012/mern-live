@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./cart.css";
 import CartItem from "./CartItem";
 import { addToCart, getCartItems } from "../store/actions/cart";
+import PriceDetail from "../components/PriceDetail";
 
 /**
  * @author
@@ -72,7 +73,20 @@ export const Cart = (props) => {
               )}
             </Card>
           </Col>
-          <Col sm={4}>detail</Col>
+          <Col sm={4}>
+            <PriceDetail
+              totalItems={Object.keys(cart.cartItems).reduce((qty, key) => {
+                return qty + cart.cartItems[key].qty;
+              }, 0)}
+              totalPrice={Object.keys(cart.cartItems).reduce(
+                (totalPrice, key) => {
+                  const { price, qty } = cart.cartItems[key];
+                  return totalPrice + price * qty;
+                },
+                0
+              )}
+            />
+          </Col>
         </Row>
       </Container>
     </Layout>
