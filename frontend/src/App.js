@@ -9,6 +9,7 @@ import { isUserLoggedIn } from "./store/actions/auth";
 import ProductDetail from "./screens/ProductDetail";
 import { Cart } from "./screens/Cart";
 import { updateCart } from "./store/actions/cart";
+import Checkout from "./screens/Checkout";
 // import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/cart" component={Cart} />
+          <Route path="/checkout" component={Checkout} />
           <Route path="/:productSlug/:productId/p" component={ProductDetail} />
           <Route path="/:slug" component={Product} />
 

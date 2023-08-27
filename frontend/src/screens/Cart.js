@@ -62,7 +62,12 @@ export const Cart = (props) => {
               </Card.Body>
               {Object.keys(cartItems).length !== 0 && (
                 <Col className="d-flex justify-content-end p-4">
-                  <Button size="lg">Place order</Button>
+                  <Button
+                    size="lg"
+                    onClick={() => props.history.push("checkout")}
+                  >
+                    Place order
+                  </Button>
                 </Col>
               )}
             </Card>
