@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getAddress } from "../store/actions/useraddress";
 import PriceDetail from "../components/PriceDetail";
 import { Cart } from "./Cart";
+import { createOrder, getOrder } from "../store/actions/order";
 
 /**
  * @author
@@ -22,7 +23,28 @@ const Checkout = (props) => {
   useEffect(() => {
     dispatch(getAddress());
   }, [dispatch]);
-  console.log("selectAddress", selectAddress);
+  const confirmOrder = () => {
+    const totalAmount = Object.keys(cart.cartItems).reduce(
+      (totalPrice, key) => {
+        const { price, qty } = cart.cartItems[key];
+        return totalPrice + price * qty;
+      },
+      0
+    );
+
+    const items = Object.keys(cart.cartItems).map((key) => ({
+      productId: key,
+      payablePrice: cart.cartItems[key].price,
+      purchasedQty: 1,
+    }));
+    const payload = {
+      addressId: selectAddress._id,
+      totalAmount: totalAmount,
+      items: items,
+      paymentStatus: "pending",
+    };
+    dispatch(createOrder(payload));
+  };
   return (
     <Layout>
       <Container>
@@ -45,7 +67,9 @@ const Checkout = (props) => {
                       value={address.address}
                       onClick={() => setSelectAddress(address)}
                     />
-                      <label for={i}>{address.address}</label>
+                    <label for={i}>
+                      {address.address} {address.name} {address.mobileNumber}
+                    </label>
                   </div>
                   {/* <input
                     type="radio"
@@ -66,6 +90,19 @@ const Checkout = (props) => {
             <hr />
             <div>
               <h3>payment details </h3>
+              <Form.Check
+                label="cash on delivery"
+                name="payment-mode"
+                type={"radio"}
+                id={111}
+              />
+              <Form.Check
+                label="online"
+                name="payment-mode"
+                type={"radio"}
+                id={222}
+              />
+              <Button onClick={confirmOrder}>Make payment</Button>
             </div>
           </Col>
           <Col sm={4}>

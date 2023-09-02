@@ -6,6 +6,7 @@ import auth from "./auth";
 import productDetail from "./productDetail";
 import cart from "./cart";
 import useraddress from "./useraddress";
+import order from "./order";
 
 const rootReducer = combineReducers({
   auth: auth,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   productDetail: productDetail,
   cart: cart,
   useAddress: useraddress,
+  orders: order,
 });
 
 export default rootReducer;
